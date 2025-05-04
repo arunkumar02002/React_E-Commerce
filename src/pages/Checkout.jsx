@@ -2,7 +2,12 @@ import React from "react";
 import { Footer, Navbar } from "../components";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useNavigate } from 'react-router-dom';
+
+
 const Checkout = () => {
+  const navigate = useNavigate();
   const state = useSelector((state) => state.handleCart);
 
   const EmptyCart = () => {
@@ -31,6 +36,16 @@ const Checkout = () => {
     state.map((item) => {
       return (totalItems += item.qty);
     });
+
+    const handleSubmit = (event) => {
+      event.preventDefault();
+
+      toast.success("Order placed successfully!");
+  
+      setTimeout(() => {
+        navigate('/');
+      }, 3000); 
+    };
     return (
       <>
         <div className="container py-5">
@@ -67,7 +82,7 @@ const Checkout = () => {
                   <h4 className="mb-0">Billing address</h4>
                 </div>
                 <div className="card-body">
-                  <form className="needs-validation" novalidate>
+                  <form className="needs-validation" onSubmit={handleSubmit}>
                     <div className="row g-3">
                       <div className="col-sm-6 my-1">
                         <label for="firstName" className="form-label">
@@ -168,7 +183,7 @@ const Checkout = () => {
                         <br />
                         <select className="form-select" id="state" required>
                           <option value="">Choose...</option>
-                          <option>Punjab</option>
+                          <option>Tamil Nadu</option>
                         </select>
                         <div className="invalid-feedback">
                           Please provide a valid state.
@@ -269,7 +284,7 @@ const Checkout = () => {
 
                     <button
                       className="w-100 btn btn-primary "
-                      type="submit" disabled
+                      type="submit" 
                     >
                       Continue to checkout
                     </button>
